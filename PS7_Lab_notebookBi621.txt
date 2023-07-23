@@ -44,4 +44,12 @@ Part2 blastp
         -outfmt 6 \------- format of your output file to get the evalue and bitscore along with other information
         -evalue 1e-6 \ ----
         -use_sw_tback ---- will use the smith waterman during sequance aligment
+note to self 
+awk '$11==0.0' Humanblastp.txt| sort -k12 -r -n > HLE.txt
+wc -l HLE.txt
+27155 HLE.txt
+awk '$11==0.0' zebrablastp.txt| sort -k12 -r -n > ZLE.txt
+wc -l ZLE.txt
+26890 ZLE.txt
+
 
