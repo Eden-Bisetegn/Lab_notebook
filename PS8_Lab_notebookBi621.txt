@@ -1,0 +1,34 @@
+Name - Eden Bisetegn
+
+Lab notes Problem Set 8
+
+Part1 
+1. Ensembl is a database that stores all the diffrent genetic information about diffrent speciecs that you can use in diffrent projects 
+    i)Head to Ensembl.org -> Downloads -> FTP site. From release 109, download:
+    ii)log into talapas "wget - link to file"
+2. Install STAR version -- 2.7.10b and samtools -virsion 1.9
+3. Build a STAR database
+    i) reffering to the manual that is uptodate with the version of STAR you are using - 
+        write a script with the SBATCH comands with the spesific mode, number of threds to use, directory to the refrance file and the fasta file you are using to compare with the refrance genome 
+        Align the reads between the two files ?
+    ii)STAR - maps the genome data given to a refrance data
+        - run threds (number of cpus used)
+        - set aligment index's inronMax and Gapmax to 1000000(if you are starting off with the same file but the output is smaller in size(word count)than expected then cheak your index's)
+        - zcat the file before going through them
+        - set the path to the genome that you want to align 
+        - set the path to your output files 
+    iii) SAM files 
+        # Convert the SAM file to BAM file format
+            samtools view -S -b aligned_readsAligned.out.sam > align_readsAligned.out.bam #-S-telles it the input is sam file, #b-tells it the output is bam file
+            # sort the file
+            samtools sort align_readsAligned.out.bam -o align_readsAligned.sorted.bam
+            # extract all reads from chromosome 1
+            samtools index align_readsAligned.sorted.bam
+            samtools view -h align_readsAligned.sorted.bam 1 > aligned_reads_cr1.sam
+            #how many aligments are on chromosom-1
+            samtools view align_reads_cr1.sam | wc -l
+Part 2 
+
+1. once the sam file is made now we want to go through and cheak that we don't have any duplicate reads, and get an accurate count of the mapped and unmapped.
+Multiple mapping :One of these alignments is considered primary. All the other alignments have the secondary alignment flag set in the SAM records that represent them. The secondary aligment - 256 and the unmapped - 4.
+ 

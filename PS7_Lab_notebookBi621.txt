@@ -1,0 +1,47 @@
+Name - Eden Bisetegn
+
+Lab notes Problem Set 7
+
+Goal - using ensambel blastp and generate a code to align the protients of the two species.
+
+Part 1
+1. Ensembl is a database that stores all the diffrent genetic information about diffrent speciecs that you can use in diffrent projects 
+    i)Head to Ensembl.org -> Downloads -> FTP site. From release 109, download:
+2. write a script to extract the longest protien 
+    i) make a one line fasta file - 
+    ii) create empty strings to hold header and sequence lines as you move through them and strip the line make sure the file is sorted by gene name/ sort the file by genename
+    iii) use a regular expression to extract out the gene id and set to the current header to look at as moving down the line 
+        match= re.search('ENSDARG[0-9]+', curr_header)
+        curr_gene_id=match.group()
+    iv) use an if statment to set the current line being read as the longest protien until it reads a protien with higher length and sets the new protien as the "winner" or the longest protien
+        if curr_gene_id != win_gene_id:
+            out.write(f'{win_header}\n{win_seq}\n')
+            win_gene_id=curr_gene_id
+            win_seq=curr_seq
+            win_header=curr_header
+        
+        elif len(curr_seq) > len(win_seq):
+            win_gene_id=curr_gene_id
+            win_header=curr_header
+            win_seq=curr_seq
+Part2 blastp
+
+1.create a Blast database.
+    i) create a new enviroment by logging into talapas on a node 
+        -conda create -n blast
+        -conda activate blast
+        -conda install blast=2.14
+    ii) This would have to be run on sbatch for the size of the database that you are using - look at the velvet manual in refence with the version of blast you are using 
+        to run the sctipt use -- /usr/bin/time -v makeblastdb -in zebra_protingene.fa -dbtype prot -parse_seqids -out Zebrablast_p.db #for protien seq
+        #we use the blast database to get faster searches, comprehensive comparisions, specific serches and easier updates , to make the database we need to use the file of the longest protien
+2. Align the file from the longest protien of zebrafish and human and vise versa
+    i) Since we have a generated database from the previous step we will now run the file of the longest human protien to the zebrafish database and viseversa
+    ii) /usr/bin/time -v blastp \
+        -num_threads=24 \ ---- number of cores being used on blast 
+        -query $longest_protein \----variable name to be used to call a file 
+        -db Zebrablast_p.db \ ---- your database file 
+        -out Humanblastp.txt \ ----- out put file 
+        -outfmt 6 \------- format of your output file to get the evalue and bitscore along with other information
+        -evalue 1e-6 \ ----
+        -use_sw_tback ---- will use the smith waterman during sequance aligment
+

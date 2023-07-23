@@ -1,0 +1,72 @@
+Name - Eden Bisetegn
+
+Lab notes Problem Set 6
+
+part 0
+write a unit test--
+
+Part 1
+1. Get the file from talapas - scp user@login.talapas.uoregon.edu: /projects/bgmp/shared/Bi621/contigs.fa .
+2. Extract the length and k_mer coverage - 
+    i) from the fasta file we need to extract the header lines (looping through each record and extracting lines that start with">").
+    ii) Using regular expressions we are going to extract the 2 values in the header 
+            len_lst.extend(re.findall(r'length_([0-9]+)', line)) #grabs the length only since the regular expression is specified in the parenthesis()
+            cov_lst.extend(re.findall(r'cov_([0-9]+)', line))
+3. Find the physical length using the kmercoverage=length +k+1
+            i) find the number of maximum contig length
+            for i in range(len(len_lst)):
+            physical_conlen.append((len_lst[i])+kmer_length-1)
+            maximum length = max(physical_conlen)
+            ii) the mean contig length - sum of the ph.length / length of the ph.length
+                mean_len=(sum(physical_conlen)/len(physical_conlen))
+            ii) the total length of the genome assembly across the contigs - the sum of all the contig length
+                total_len=sum(physical_conlen)
+            iii) the mean depth of coverage for the contigs - 
+                first we normalize the coverage before taking the mean by going through the list andd multipineg the physical length and coverage
+                then we can use the formula for finding the k_mer coverage to find the depth coverage 
+                for i in range(len(cov_lst)):
+                physical_cov.append(((cov_lst[i])*(physical_conlen[i]))/((physical_conlen[i])-kmer_length+1))
+4. Calculate the n50
+            i) To find the n50 we first need to sort our list physical contigs and create a loop that will point out the length of the contig once we reach half the genome size 
+                for i in range(len(physical_conlen)):
+                total+=physical_conlen[i]
+                if total>=n50:
+                    n50_value=physical_conlen[i]
+                    print(f'the n50 value{n50_value}')
+                    break
+5. find the contig length distribution & buckt them in 100 diffrence 
+            i) create a dictionary - save your key and value, 
+                key=the buckets your creating * use floor divition and multiply by the amount of diffrence you need in your bucket (in this case 100)
+                value= set a counter to take note of how many times you encounter values that you pass through in your list 
+Part 2 
+
+1. To install velvet first log on to talapas and get on to an interactive node. 
+        i) run an srun command 
+        ii) conda create an enviroment/activate - version = 2.1
+    a) find the total nucleotide - opend the fastq file and extracted out the sequence line and set a couter to go through each line and sum the total reads in all three files 
+    b) calculate the coverage- using the physical length and genome length of the file(whcich we can calcule by using the number of fosmids and their length). divide the physical length and genome length
+
+Velvet-h 
+
+aim - 
+
+To run velvet - i)have all the neccecary sbatch commands laied out 
+                ii)conda activate the enviroment you created 
+                iii)place the path for the files that you would like to use 
+                iv) /usr/bin/time -v velveth -- record usage of resources 
+
+Velvet-g 
+
+aim - 
+
+To run velvet - i)have all the neccecary sbatch commands laied out 
+                ii)conda activate the enviroment you created 
+                iii)/usr/bin/time -v velvetg - record usage of resources
+                iv) set all your needed coverage cutoff/length...
+
+
+
+
+
+            
+
