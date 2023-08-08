@@ -45,6 +45,20 @@ def gc_content(DNA):
     gc_content = DNA.count('G') + DNA.count('C')
     return gc_content/len(DNA)
 
+def calc_median(collection: list) -> float:
+        
+    if len(collection) % 2 == 1:
+        # odd
+        position=len(collection)//2
+        return collection[position]
+
+    else:
+        #even
+        position=len(collection)//2
+        position1=(len(collection)//2) - 1
+        position2=(collection[position]+collection[position1]) / 2
+        return position2
+    
 def oneline_fasta(output: str, filename: str):
     '''docstring'''
     sequence: str=''
@@ -74,6 +88,13 @@ if __name__ == "__main__":
     print("Your convert_phred function is working! Nice job")
 
 if __name__ == "__main__":
+    assert qual_score("EEE") == 36
+    assert qual_score("#I") == 21
+    assert qual_score("EJ") == 38.5
+    assert qual_score(phred_score) == 37.62105263157895, "wrong average phred score"
+    print("You calcluated the correct average phred score")
+
+if __name__ == "__main__":
     assert validate_base_seq("AATAGAT", False) == True, "Validate base seq does not work on DNA"
     assert validate_base_seq("AAUAGAU", True) == True, "Validate base seq does not work on RNA"
     assert validate_base_seq("TATUC",False) == False
@@ -86,7 +107,11 @@ if __name__ == "__main__":
     assert gc_content("GCATCGAT") == 0.5
     print("correctly calculated GC content")
 
-# if __name__ == "__main__":
-#     assert oneline_fasta(f'{header}\n{sequence}') == True 
-#     print("correctly made oneline fasta")
-    
+if __name__ == "__main__":
+    assert calc_median([1,2,3]) == 2, "calc_median function does not work for odd length list"
+    assert calc_median([1,2]) == 1.5, "calc_median function does not work for even length list"
+    assert calc_median[9] == 39
+    assert calc_median[32] == 40
+    assert calc_median[54] == 38
+    assert calc_median[99] == 34
+    print("Median successfully calculated")
