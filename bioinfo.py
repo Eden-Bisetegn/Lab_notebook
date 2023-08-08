@@ -28,7 +28,6 @@ for value in (phred_score):
     score=convert_phred(value)
     qual_score=score+qual_score
     i+=1
-print(qual_score/len(phred_score))
 
 def validate_base_seq():
     '''This function takes a string. Returns True if string is composed
@@ -46,34 +45,24 @@ def gc_content(DNA):
     gc_content = DNA.count('G') + DNA.count('C')
     return gc_content/len(DNA)
 
-def oneline_fasta(sequence, header):
+def oneline_fasta(output: str, filename: str):
     '''docstring'''
-import re
-win_header=''
-win_seq=''
-win_gene_id=''
-with open(filename, 'r') as fh, open(output, "w") as out:
-    while True:
-        curr_header = fh.readline().strip()
-        curr_seq = fh.readline().strip()
-        if curr_header == '':
-            # EOF
-            break
-
-        match= re.search('ENSDARG[0-9]+', curr_header)
-        curr_gene_id=match.group()
-
-        if curr_gene_id != win_gene_id:
-            out.write(f'{win_header}\n{win_seq}\n')
-            win_gene_id=curr_gene_id
-            win_seq=curr_seq
-            win_header=curr_header
-        
-        elif len(curr_seq) > len(win_seq):
-            win_gene_id=curr_gene_id
-            win_header=curr_header
-            win_seq=curr_seq
-    print(f">{header}\n{sequence}")
+    sequence: str=''
+    header: str=''
+    with open(output, "w") as reads, open(filename, "r") as fh:
+        for line in fh:
+            line=line.strip("\n")
+            if line.startswith('>'):
+                if sequence=='':
+                    header=line
+                else:
+                    reads.write(f'{header}\n{sequence}\n')
+                    sequence=''
+                    header=line
+            else:
+                sequence+=line
+        reads.write(header)
+        reads.write(sequence)
 
 if __name__ == "__main__":
     # write tests for functions above, Leslie has already populated some tests for convert_phred
@@ -97,7 +86,7 @@ if __name__ == "__main__":
     assert gc_content("GCATCGAT") == 0.5
     print("correctly calculated GC content")
 
-if __name__ == "__main__":
-    assert oneline_fasta(f'{header}\n{sequence}') == True 
-    print("correctly made oneline fasta")
+# if __name__ == "__main__":
+#     assert oneline_fasta(f'{header}\n{sequence}') == True 
+#     print("correctly made oneline fasta")
     
