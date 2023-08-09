@@ -21,13 +21,9 @@ def convert_phred(letter: str) -> int:
 
 def qual_score(phred_score: str) -> float:
     '''Write your own doc string'''
-phred_score=[]
-qual_score=0
-i=1
-for value in (phred_score):
-    score=convert_phred(value)
-    qual_score=score+qual_score
-    i+=1
+    for value in (phred_score):
+        score=convert_phred(value)
+        return score
 
 def validate_base_seq(sequence):
     '''This function takes a string. Returns True if string is composed
