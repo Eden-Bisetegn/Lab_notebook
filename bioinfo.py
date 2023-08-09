@@ -12,8 +12,8 @@ You should update this docstring to reflect what you would like it to say'''
 __version__ = "0.1"         # Read way more about versioning here:
                             # https://en.wikipedia.org/wiki/Software_versioning
 
-DNA_bases = "ACGT"
-RNA_bases = "ACGU"
+DNA_bases = "ACGTN"
+RNA_bases = "ACGUN"
 
 def convert_phred(letter: str) -> int:
     '''Converts a single character into a phred score'''
@@ -29,7 +29,7 @@ for value in (phred_score):
     qual_score=score+qual_score
     i+=1
 
-def validate_base_seq():
+def validate_base_seq(sequence):
     '''This function takes a string. Returns True if string is composed
     of only As, Ts (or Us if RNAflag), Gs, Cs. False otherwise. Case insensitive.'''
     sequence=sequence.upper() # turnes all the sequences to upper case letters 
@@ -42,7 +42,7 @@ def validate_base_seq():
 
 def gc_content(DNA):
     '''Returns GC content of a DNA or RNA sequence as a decimal between 0 and 1.'''
-    assert validate_base_seq == True, "Validate base seq does not work on non-DNA"
+    assert validate_base_seq(DNA) == True, "Validate base seq does not work on non-DNA"
     gc_content = DNA.count('G') + DNA.count('C')
     return gc_content/len(DNA)
 
