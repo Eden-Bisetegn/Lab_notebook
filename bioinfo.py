@@ -42,7 +42,7 @@ def validate_base_seq():
 
 def gc_content(DNA):
     '''Returns GC content of a DNA or RNA sequence as a decimal between 0 and 1.'''
-    validate_base_seq=DNA
+    assert validate_base_seq == True, "Validate base seq does not work on non-DNA"
     gc_content = DNA.count('G') + DNA.count('C')
     return gc_content/len(DNA)
 
