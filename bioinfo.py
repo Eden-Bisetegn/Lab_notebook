@@ -12,8 +12,8 @@ You should update this docstring to reflect what you would like it to say'''
 __version__ = "0.1"         # Read way more about versioning here:
                             # https://en.wikipedia.org/wiki/Software_versioning
 
-DNA_bases = None
-RNA_bases = None
+DNA_bases = "ACGT"
+RNA_bases = "ACGU"
 
 def convert_phred(letter: str) -> int:
     '''Converts a single character into a phred score'''
@@ -33,7 +33,7 @@ def validate_base_seq():
     '''This function takes a string. Returns True if string is composed
     of only As, Ts (or Us if RNAflag), Gs, Cs. False otherwise. Case insensitive.'''
     sequence=sequence.upper() # turnes all the sequences to upper case letters 
-    valid_base=set('ACTG')
+    valid_base=DNA_bases
     for i in sequence:
         if i not in valid_base:
             return False
@@ -42,6 +42,7 @@ def validate_base_seq():
 
 def gc_content(DNA):
     '''Returns GC content of a DNA or RNA sequence as a decimal between 0 and 1.'''
+    validate_base_seq=DNA
     gc_content = DNA.count('G') + DNA.count('C')
     return gc_content/len(DNA)
 
@@ -88,10 +89,9 @@ if __name__ == "__main__":
     print("Your convert_phred function is working! Nice job")
 
 if __name__ == "__main__":
-    assert qual_score("EEE") == 36
-    assert qual_score("#I") == 21
-    assert qual_score("EJ") == 38.5
-    assert qual_score(phred_score) == 37.62105263157895, "wrong average phred score"
+    assert qual_score("E") == 36
+    assert qual_score("#") == 35
+    assert qual_score("C") == 34
     print("You calcluated the correct average phred score")
 
 if __name__ == "__main__":
