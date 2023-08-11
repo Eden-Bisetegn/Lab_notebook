@@ -12,8 +12,8 @@ You should update this docstring to reflect what you would like it to say'''
 __version__ = "0.1"         # Read way more about versioning here:
                             # https://en.wikipedia.org/wiki/Software_versioning
 
-DNA_bases = "ACGTN"
-RNA_bases = "ACGUN"
+DNA_bases = set("ACGTN")
+RNA_bases = set("ACGUN")
 
 def convert_phred(letter: str) -> int:
     '''Converts a single character into a phred score'''
