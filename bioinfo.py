@@ -25,7 +25,7 @@ def qual_score(phred_score: str) -> float:
     for value in (phred_score):
         score=convert_phred(value)
         qual_score=score+qual_score
-        return qual_score/len(phred_score)
+    return qual_score/len(phred_score)
 
 def validate_base_seq(seq,RNAflag=False):
     '''This function takes a string. Returns True if string is composed
