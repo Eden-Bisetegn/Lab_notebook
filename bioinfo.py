@@ -21,6 +21,7 @@ def convert_phred(letter: str) -> int:
 
 def qual_score(phred_score: str) -> float:
     '''quality score calles on the convert phred function and takes the average of the quality score line '''
+    qual_score=0
     for value in (phred_score):
         score=convert_phred(value)
         qual_score=score+qual_score
