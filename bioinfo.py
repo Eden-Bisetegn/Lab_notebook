@@ -20,15 +20,16 @@ def convert_phred(letter: str) -> int:
     return ord(letter) - 33
 
 def qual_score(phred_score: str) -> float:
-    '''Write your own doc string'''
+    '''quality score calles on the convert phred function and takes the average of the quality score line '''
     for value in (phred_score):
         score=convert_phred(value)
-        return score
+        qual_score=score+qual_score
+        return qual_score/len(phred_score)
 
-def validate_base_seq(seq: str, RNAflag: bool=False) -> bool:
-    seq.upper()
-    return str.len(seq) == seq.count("U" if RNAflag else "T") + seq.count("G") + seq.count("C") +  seq.count("A")  
-    pass
+def validate_base_seq(seq,RNAflag=False):
+    '''This function takes a string. Returns True if string is composed
+    of only As, Ts (or Us if RNAflag), Gs, Cs. False otherwise. Case insensitive.'''
+    return set(seq)<=(RNA_bases if RNAflag else DNA_bases)
 
 def gc_content(DNA):
     '''Returns GC content of a DNA or RNA sequence as a decimal between 0 and 1.'''
@@ -78,9 +79,9 @@ if __name__ == "__main__":
     print("Your convert_phred function is working! Nice job")
 
 if __name__ == "__main__":
-    assert qual_score("E") == 36
-    assert qual_score("#") == 2
-    assert qual_score("C") == 34
+    assert qual_score("EEE") == 36
+    assert qual_score("#I") == 21
+    assert qual_score("EJ") == 38.6
     print("You calcluated the correct average phred score")
 
 if __name__ == "__main__":
