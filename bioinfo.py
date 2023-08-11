@@ -30,6 +30,7 @@ def qual_score(phred_score: str) -> float:
 def validate_base_seq(seq,RNAflag=False):
     '''This function takes a string. Returns True if string is composed
     of only As, Ts (or Us if RNAflag), Gs, Cs. False otherwise. Case insensitive.'''
+    seq=seq.upper()
     return set(seq)<=(RNA_bases if RNAflag else DNA_bases)
 
 def gc_content(DNA):
@@ -82,7 +83,7 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     assert qual_score("EEE") == 36
     assert qual_score("#I") == 21
-    assert qual_score("EJ") == 38.6
+    assert qual_score("EJ") == 38.5
     print("You calcluated the correct average phred score")
 
 if __name__ == "__main__":
