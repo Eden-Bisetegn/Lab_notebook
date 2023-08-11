@@ -102,8 +102,8 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     assert calc_median([1,2,3]) == 2, "calc_median function does not work for odd length list"
     assert calc_median([1,2]) == 1.5, "calc_median function does not work for even length list"
-    assert calc_median[9] == 39
-    assert calc_median[32] == 40
-    assert calc_median[54] == 38
-    assert calc_median[99] == 34
+    assert calc_median([9]) == 39
+    assert calc_median([32]) == 40
+    assert calc_median([54]) == 38
+    assert calc_median([99]) == 34
     print("Median successfully calculated")
