@@ -25,16 +25,10 @@ def qual_score(phred_score: str) -> float:
         score=convert_phred(value)
         return score
 
-def validate_base_seq(sequence):
-    '''This function takes a string. Returns True if string is composed
-    of only As, Ts (or Us if RNAflag), Gs, Cs. False otherwise. Case insensitive.'''
-    sequence=sequence.upper() # turnes all the sequences to upper case letters 
-    valid_base=DNA_bases
-    for i in sequence:
-        if i not in valid_base:
-            return False
-        else:
-            return True
+def validate_base_seq(seq: str, RNAflag: bool=False) -> bool:
+    seq.upper()
+    return str.len(seq) == seq.count("U" if RNAflag else "T") + seq.count("G") + seq.count("C") +  seq.count("A")  
+    pass
 
 def gc_content(DNA):
     '''Returns GC content of a DNA or RNA sequence as a decimal between 0 and 1.'''
@@ -48,7 +42,6 @@ def calc_median(collection: list) -> float:
         # odd
         position=len(collection)//2
         return collection[position]
-
     else:
         #even
         position=len(collection)//2
@@ -86,7 +79,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     assert qual_score("E") == 36
-    assert qual_score("#") == 35
+    assert qual_score("#") == 2
     assert qual_score("C") == 34
     print("You calcluated the correct average phred score")
 
